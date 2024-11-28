@@ -1,0 +1,91 @@
+<form class="form" [formGroup]="form">
+  <!-- Inputs -->
+
+  <!-- NAME -->
+  @if (form.get('name')?.hasError('required') && form.get('name')?.touched) {
+  <p class="alert alert-warning">O campo nome é obrigatório.</p>
+  } @if (form.get('name')?.hasError('minlength') && form.get('name')?.touched) {
+  <p class="alert alert-warning">
+    O campo nome precisa conter pelo menos 3 caracteres.
+  </p>
+  }
+  <input
+    type="text"
+    class="form-control"
+    formControlName="name"
+    placeholder="Nome"
+    required
+  />
+
+  <!-- FIRST NOTE -->
+  @if (form.get('firstNote')?.hasError('required') &&
+  form.get('firstNote')?.touched) {
+  <p class="alert alert-warning">O campo primeira nota é obrigatório.</p>
+  } @if (form.get('firstNote')?.hasError('min') && form.get('firstNote')?.touched)
+  {
+  <p class="alert alert-warning">Neste campo a nota mínima é 0.</p>
+  } @if (form.get('firstNote')?.hasError('max') &&
+  form.get('firstNote')?.touched){
+  <p class="alert alert-warning">Neste campo a nota máxima é 10.</p>
+  }
+
+  <input
+    type="number"
+    class="form-control"
+    formControlName="firstNote"
+    placeholder="Primeira nota"
+    required
+  />
+
+  <!-- SECCOND NOTE -->
+  @if (form.get('seccondNote')?.hasError('required') &&
+  form.get('seccondNote')?.touched) {
+  <p class="alert alert-warning">O campo primeira nota é obrigatório.</p>
+  } @if (form.get('seccondNote')?.hasError('min') &&
+  form.get('seccondNote')?.touched) {
+  <p class="alert alert-warning">Neste campo a nota mínima é 0.</p>
+  } @if (form.get('seccondNote')?.hasError('max') &&
+  form.get('seccondNote')?.touched) {
+  <p class="alert alert-warning">Neste campo a nota máxima é 10.</p>
+  }
+  <input
+    type="number"
+    class="form-control"
+    formControlName="seccondNote"
+    placeholder="Segunda nota"
+    required
+  />
+
+  <!-- Buttons -->
+   @if (btnCadastrar) {
+    <input type="button" class="btn btn-dark" value="Cadastrar" (click)="addBtn()" [disabled]="form.invalid"/>
+   }@else {
+    <input type="button" class="btn btn-dark" value="Remover" (click)="deleteBtn()"/>
+    <input type="button" class="btn btn-dark" value="Alterar" (click)="changeBtn()" [disabled]="form.invalid" />
+    <input type="button" class="btn btn-dark" value="Cancelar" (click)="cancelBtn()"/>
+   }
+  
+</form>
+
+<table class="table-light">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Nome</th>
+      <th>Primeira nota</th>
+      <th>Segunda nota</th>
+      <th>Média</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let v of vetor; index as index">
+      <td>{{index + 1}}</td>
+      <td>{{v.name}}</td>
+      <td>{{v.firstNote}}</td>
+      <td>{{v.seccondNote}}</td>
+      <td>{{v | media}}</td>
+      <td><button class="btn btn-dark btn-sm" (click)="selectBtn(index)" >Selecionar</button></td>
+    </tr>
+  </tbody>
+</table>
